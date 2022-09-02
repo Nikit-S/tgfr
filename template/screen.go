@@ -1,30 +1,33 @@
 package template
 
-import "fmt"
-
 type Screen struct {
 	Elems       []IElement
 	SkipOnStart bool
 	Repeat      bool
 }
 
+//main function for execute screen
+//screen execeutes all its elements one by one
+//if element exec returns false it decides to proceed or finish
+//execution stops on endMsg | gotoScreen | nil element
 func (s *Screen) Execute(bot *Bot, user *User) {
 	//user.SetScreen(s)
-	fmt.Println("exec screen")
 	if s.SkipOnStart {
 		<-user.GetChan()
 	}
 	for user.onElement < len(s.Elems) {
+		if s.Elems[user.onElement] == nil {
+			user.SetScreen(nil)
+			user.SetElement(-1)
+			return
+		}
 
-		//fmt.Println("user", user)
 		if !s.execNext(bot, user) {
 			break
 		}
 		//time.Sleep(1 * time.Second)
 	}
-	fmt.Println("screen end", user.OnScreen())
 	if s.Repeat {
-		fmt.Println("repeat")
 		user.SetElement(0)
 		user.SetScreen(s)
 	}

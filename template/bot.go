@@ -6,6 +6,7 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
+//Main stucrcture of bot
 type Bot struct {
 	*tgbotapi.BotAPI
 	users       map[int64]*User
@@ -13,6 +14,7 @@ type Bot struct {
 	storage     IStorage
 }
 
+//returns new bot with initialized storage
 func NewBot(key string, StartScreen Screen) *Bot {
 	bt, err := tgbotapi.NewBotAPI(key)
 	if err != nil {
@@ -22,6 +24,7 @@ func NewBot(key string, StartScreen Screen) *Bot {
 	return &Bot{BotAPI: bt, users: make(map[int64]*User), startScreen: StartScreen}
 }
 
+//starts the mainLoop of updates receiving
 func (b Bot) Start() error {
 	updateConfig := tgbotapi.NewUpdate(0)
 	updateConfig.Timeout = 30
@@ -30,6 +33,7 @@ func (b Bot) Start() error {
 	return nil
 }
 
+//do nothing
 func (b *Bot) Stop() error {
 	return nil
 }

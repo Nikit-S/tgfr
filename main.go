@@ -27,7 +27,8 @@ var HelloScreen = template.Screen{
 		elem.Msg{
 			Text: "I m bot!",
 		},
-		elem.EndMsg{},
+		nil,
+		//elem.EndMsg{},
 	},
 }
 
