@@ -1,4 +1,4 @@
-package elem
+package blocks
 
 import (
 	"fmt"
@@ -11,34 +11,32 @@ type Msg struct {
 	Text string
 }
 
-func (m Msg) Execute(bot *template.Bot, user *template.User) {
+func (m Msg) Execute(bot *template.Bot, user *template.User) (exit bool) {
 	msg := tgbotapi.NewMessage(user.GetUserId(), m.Text)
 	msg.ReplyMarkup = tgbotapi.NewRemoveKeyboard(true)
 	_, err := bot.GetApi().Send(msg)
 	if err != nil {
 		fmt.Println(err)
 	}
-
+	return false
 }
 
-type RepeatMsg struct {
+type RepeatInput struct {
 	Text string
 	Num  int
 }
 
-func (m RepeatMsg) Execute(bot *template.Bot, user *template.User) {
-	fmt.Println("repeat msg wait", user.GetChan())
+func (m RepeatInput) Execute(bot *template.Bot, user *template.User) (exit bool) {
 	update := <-user.GetChan()
-	fmt.Println("repeat msg wait passed", user.GetChan())
 	msg := tgbotapi.NewMessage(user.GetUserId(), update.Message.Text)
 	msg.ReplyMarkup = tgbotapi.NewRemoveKeyboard(true)
 	_, err := bot.GetApi().Send(msg)
 	if err != nil {
 		fmt.Println(err)
 	}
-
+	return false
 }
 
-func (m RepeatMsg) GetNum() int {
+func (m RepeatInput) GetNum() int {
 	return m.Num
 }

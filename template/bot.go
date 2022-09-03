@@ -59,7 +59,6 @@ func (b *Bot) routeUpdate(update tgbotapi.Update) bool {
 	user := b.GetUser(update.Message.From.ID)
 	if user != nil {
 		if user.OnScreen() == nil {
-			fmt.Println("no screen")
 			return false
 		}
 		b.GetUser(update.Message.From.ID).GetChan() <- update
