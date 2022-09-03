@@ -32,7 +32,7 @@ package template
 //}
 
 type IElement interface {
-	Execute(bot *Bot, user *User)
+	Execute(bot *Bot, user *User) (exit bool)
 }
 
 type INotification interface {

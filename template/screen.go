@@ -4,54 +4,36 @@ type Screen struct {
 	Elems       []IElement
 	SkipOnStart bool
 	Repeat      bool
+	OnElement   int
 }
 
 //main function for execute screen
 //screen execeutes all its elements one by one
 //if element exec returns false it decides to proceed or finish
 //execution stops on endMsg | gotoScreen | nil element
-func (s *Screen) Execute(bot *Bot, user *User) {
+func (s Screen) Execute(bot *Bot, user *User) {
+	//defer user.SetScreen(nil)
 	//user.SetScreen(s)
 	if s.SkipOnStart {
 		<-user.GetChan()
 	}
-	for user.onElement < len(s.Elems) {
-		if s.Elems[user.onElement] == nil {
-			user.SetScreen(nil)
-			user.SetElement(-1)
-			return
-		}
-
-		if !s.execNext(bot, user) {
-			break
-		}
-		//time.Sleep(1 * time.Second)
+	if s.Elems == nil {
+		return
 	}
-	if s.Repeat {
-		user.SetElement(0)
-		user.SetScreen(s)
+	s.OnElement = user.onElement
+	for s.OnElement < len(s.Elems) {
+		s.execNext(bot, user)
 	}
-	if user.OnScreen() != nil {
-		defer user.OnScreen().Execute(bot, user)
-	}
-
 }
 
-func (s *Screen) execNext(bot *Bot, user *User) bool {
+func (s *Screen) execNext(bot *Bot, user *User) {
 	if len(s.Elems) == 0 {
-		return false
+		return
 	}
-	elem := s.Elems[user.onElement]
-
-	elem.Execute(bot, user)
-	if user.onElement == -1 || user.onScreen != s {
-		return false
-	}
+	blocks := s.Elems[user.onElement]
 	user.onElement++
-	if user.onElement >= len(s.Elems) {
-		return false
-	}
-	return true
+	blocks.Execute(bot, user)
+	s.OnElement++
 }
 
 func (s Screen) GetFirstElement() IElement {

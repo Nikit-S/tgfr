@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/Nikit-S/tgfr/elem"
+	"github.com/Nikit-S/tgfr/blocks"
 	"github.com/Nikit-S/tgfr/template"
 )
 
@@ -21,23 +21,22 @@ var HelloScreen = template.Screen{
 	SkipOnStart: false,
 	Repeat:      false,
 	Elems: []template.IElement{
-		elem.Msg{
+		blocks.Msg{
 			Text: "Hello, User!",
 		},
-		elem.Msg{
+		blocks.Msg{
 			Text: "I m bot!",
 		},
-		nil,
-		//elem.EndMsg{},
+		blocks.EndMsg{},
 	},
 }
 
 var SecondScreen = template.Screen{
 	Elems: []template.IElement{
-		elem.Msg{
+		blocks.Msg{
 			Text: "What!",
 		},
-		elem.Msg{
+		blocks.Msg{
 			Text: "it works!",
 		},
 	},
@@ -47,10 +46,37 @@ var RepeatScreen = template.Screen{
 	SkipOnStart: false,
 	Repeat:      false,
 	Elems: []template.IElement{
-		elem.RepeatMsg{},
+		blocks.RepeatInput{},
 
-		elem.GotoScreen{
+		blocks.GotoScreen{
+			Screen: &RepeatScreen2,
+		},
+		//blocks.EndMsg{},
+	},
+}
+
+var RepeatScreen2 = template.Screen{
+	SkipOnStart: false,
+	Repeat:      false,
+	Elems: []template.IElement{
+		blocks.RepeatInput{},
+
+		blocks.GotoScreen{
+			Screen: &RepeatScreen3,
+		},
+		//blocks.EndMsg{},
+	},
+}
+
+var RepeatScreen3 = template.Screen{
+	SkipOnStart: false,
+	Repeat:      false,
+	Elems: []template.IElement{
+		blocks.RepeatInput{},
+
+		blocks.GotoScreen{
 			Screen: &HelloScreen,
 		},
+		//blocks.EndMsg{},
 	},
 }
