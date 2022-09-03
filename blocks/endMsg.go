@@ -7,8 +7,8 @@ import (
 type EndMsg struct {
 }
 
-func (m EndMsg) Execute(bot *template.Bot, user *template.User) (exit bool) {
+// Set user screen to nil and and element to 0 which means that bot will stop redirecting updates to this user
+func (m EndMsg) Execute(bot *template.Bot, user *template.User) {
 	user.SetScreen(nil)
 	user.SetElement(0)
-	return false
 }

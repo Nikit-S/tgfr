@@ -1,7 +1,7 @@
 package template
 
 type Screen struct {
-	Elems       []IElement
+	Elems       []IBlock
 	SkipOnStart bool
 	Repeat      bool
 	OnElement   int
@@ -36,7 +36,7 @@ func (s *Screen) execNext(bot *Bot, user *User) {
 	s.OnElement++
 }
 
-func (s Screen) GetFirstElement() IElement {
+func (s Screen) GetFirstElement() IBlock {
 	if len(s.Elems) == 0 {
 		return nil
 	}
