@@ -17,10 +17,11 @@ func main() {
 	log.Fatal(bot.Start())
 }
 
+// Screen for greetings and further ending
 var HelloScreen = template.Screen{
 	SkipOnStart: false,
 	Repeat:      false,
-	Elems: []template.IElement{
+	Elems: []template.IBlock{
 		blocks.Msg{
 			Text: "Hello, User!",
 		},
@@ -32,7 +33,7 @@ var HelloScreen = template.Screen{
 }
 
 var SecondScreen = template.Screen{
-	Elems: []template.IElement{
+	Elems: []template.IBlock{
 		blocks.Msg{
 			Text: "What!",
 		},
@@ -42,10 +43,11 @@ var SecondScreen = template.Screen{
 	},
 }
 
+//repeats last user input and redirects to RepeatScreen2
 var RepeatScreen = template.Screen{
 	SkipOnStart: false,
 	Repeat:      false,
-	Elems: []template.IElement{
+	Elems: []template.IBlock{
 		blocks.RepeatInput{},
 
 		blocks.GotoScreen{
@@ -58,7 +60,7 @@ var RepeatScreen = template.Screen{
 var RepeatScreen2 = template.Screen{
 	SkipOnStart: false,
 	Repeat:      false,
-	Elems: []template.IElement{
+	Elems: []template.IBlock{
 		blocks.RepeatInput{},
 
 		blocks.GotoScreen{
@@ -71,7 +73,7 @@ var RepeatScreen2 = template.Screen{
 var RepeatScreen3 = template.Screen{
 	SkipOnStart: false,
 	Repeat:      false,
-	Elems: []template.IElement{
+	Elems: []template.IBlock{
 		blocks.RepeatInput{},
 
 		blocks.GotoScreen{

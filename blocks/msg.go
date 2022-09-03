@@ -11,22 +11,20 @@ type Msg struct {
 	Text string
 }
 
-func (m Msg) Execute(bot *template.Bot, user *template.User) (exit bool) {
+// Sends message to user with text m.Text
+func (m Msg) Execute(bot *template.Bot, user *template.User) {
 	msg := tgbotapi.NewMessage(user.GetUserId(), m.Text)
 	msg.ReplyMarkup = tgbotapi.NewRemoveKeyboard(true)
 	_, err := bot.GetApi().Send(msg)
 	if err != nil {
 		fmt.Println(err)
 	}
-	return false
 }
 
-type RepeatInput struct {
-	Text string
-	Num  int
-}
+type RepeatInput struct{}
 
-func (m RepeatInput) Execute(bot *template.Bot, user *template.User) (exit bool) {
+// Sends message to user with last text input from user
+func (m RepeatInput) Execute(bot *template.Bot, user *template.User) {
 	update := <-user.GetChan()
 	msg := tgbotapi.NewMessage(user.GetUserId(), update.Message.Text)
 	msg.ReplyMarkup = tgbotapi.NewRemoveKeyboard(true)
@@ -34,9 +32,4 @@ func (m RepeatInput) Execute(bot *template.Bot, user *template.User) (exit bool)
 	if err != nil {
 		fmt.Println(err)
 	}
-	return false
-}
-
-func (m RepeatInput) GetNum() int {
-	return m.Num
 }

@@ -19,20 +19,20 @@ package template
 //	GetLastUpdate() tgbotapi.Update
 //	OnScreen() IScreen
 //	SetScreen(screen IScreen)
-//	OnElement() IElement
-//	SetElement(element IElement)
+//	OnElement() IBlock
+//	SetElement(element IBlock)
 //}
 //
 //type WorkSpace struct{}
 //
 //type IScreen interface {
 //	Execute(bot IBot, user IUser)
-//	GetFirstElement() IElement
+//	GetFirstElement() IBlock
 //	NextScreen() IScreen
 //}
 
-type IElement interface {
-	Execute(bot *Bot, user *User) (exit bool)
+type IBlock interface {
+	Execute(bot *Bot, user *User)
 }
 
 type INotification interface {
