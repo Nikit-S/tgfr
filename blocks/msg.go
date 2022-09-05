@@ -21,15 +21,28 @@ func (m Msg) Execute(bot *template.Bot, user *template.User) {
 	}
 }
 
+func (m Msg) String() string {
+	return "Msg"
+}
+
 type RepeatInput struct{}
 
 // Sends message to user with last text input from user
 func (m RepeatInput) Execute(bot *template.Bot, user *template.User) {
-	update := <-user.GetChan()
+	user.OpenWaitChan()
+	update, ok := user.RecieveUpdate()
+	if !ok {
+		return
+	}
+	user.CloseWaitChan()
 	msg := tgbotapi.NewMessage(user.GetUserId(), update.Message.Text)
 	msg.ReplyMarkup = tgbotapi.NewRemoveKeyboard(true)
 	_, err := bot.GetApi().Send(msg)
 	if err != nil {
 		fmt.Println(err)
 	}
+}
+
+func (m RepeatInput) String() string {
+	return "RepeatInput"
 }
