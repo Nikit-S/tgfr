@@ -33,6 +33,7 @@ package template
 
 type IBlock interface {
 	Execute(bot *Bot, user *User)
+	String() string
 }
 
 type INotification interface {
