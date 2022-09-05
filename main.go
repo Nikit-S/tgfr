@@ -27,10 +27,13 @@ var HelloScreen = template.Screen{
 	Repeat:      false,
 	Elems: []template.IBlock{
 		blocks.Msg{
-			Text: "Hello, User!",
+			Text: "Hello, User! You' ii wait now for 3 seconds. Can try to spam",
+		},
+		blocks.Timer{
+			Seconds: 5,
 		},
 		blocks.Msg{
-			Text: "I m bot!",
+			Text: "I m bot! For next 4 messages i will repeat your message. Or use command to stop me from main line.",
 		},
 		blocks.GotoScreen{
 			Screen:  "RepeatScreen",
@@ -73,6 +76,16 @@ var RepeatScreen = template.Screen{
 			},
 		},
 		blocks.RepeatInput{},
+		blocks.Msg{
+			Text: "You ll wait now for 3 seconds. Can try to spam",
+		},
+		blocks.Timer{
+			Seconds: 3,
+		},
+
+		blocks.Msg{
+			Text: "STOP I will repeat your message",
+		},
 		blocks.RepeatInput{},
 		blocks.RepeatInput{},
 		blocks.RepeatInput{},
