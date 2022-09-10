@@ -1,4 +1,6 @@
 # tgframework
+telegram-bot-api based GO framework for developing telegram bots
+
 
 main — simple example
 
